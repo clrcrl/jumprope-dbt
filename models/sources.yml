@@ -1,6 +1,7 @@
 version: 2
 
 sources:
-  - name: jumprope_firebase
+  - name: jumprope
+    database: raw
     tables:
       - name: logging

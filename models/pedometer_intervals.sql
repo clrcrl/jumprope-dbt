@@ -1,37 +1,5 @@
-with logging as (
-    select * from {{ source('jumprope', 'logging') }}
-),
-
-pedometer_measurements as (
-    select
-        -- TODO: fix this later
-        1 as workout_id,
-
-        loggingtime_txt as logging_time,
-
-        first_value(logging_time) over (
-            partition by workout_id
-            order by logging_time
-        ) as workout_start_at,
-
-        datediff(
-            'milliseconds',
-            workout_start_at,
-            logging_time
-        ) / 1000.0 as seconds_since_start,
-
-        pedometerNumberofSteps_N as pedometer_number_of_steps_on_watch,
-
-        first_value(pedometer_number_of_steps_on_watch) over (
-            partition by workout_id
-            order by logging_time
-        ) as initial_pedometer_value,
-
-        pedometer_number_of_steps_on_watch - initial_pedometer_value as steps_since_start
-
-    from logging
-
-    where pedometer_number_of_steps_on_watch is not null
+with pedometer_measurements as (
+    select * from {{ ref('pedometer_measurements') }}
 ),
 
 pedometer_intervals as (
@@ -40,16 +8,16 @@ pedometer_intervals as (
 
         workout_start_at,
 
-        lag(logging_time) over (
+        lag(pedometer_timestamp) over (
             partition by workout_id
-            order by logging_time
+            order by pedometer_timestamp
         ) as interval_start_at,
 
-        logging_time as interval_end_at,
+        pedometer_timestamp as interval_end_at,
 
         lag(seconds_since_start) over (
             partition by workout_id
-            order by logging_time
+            order by pedometer_timestamp
         ) as interval_starting_seconds,
 
         seconds_since_start as interval_ending_seconds,
@@ -58,7 +26,7 @@ pedometer_intervals as (
 
         lag(steps_since_start) over (
             partition by workout_id
-            order by logging_time
+            order by pedometer_timestamp
         ) as interval_starting_steps,
 
         steps_since_start as interval_ending_steps,

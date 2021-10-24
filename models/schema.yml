@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: pedometer_measurements
+    description: one record per pedometer measurement recorded by apple watch
+    columns:
+      - name: pedometer_timestamp
+        tests:
+          - unique
+          - not_null
+
+  - name: pedometer_intervals
+    description: one record per time between two consecutive pedometer measurements
+    columns:
+      - name: seconds_this_interval
+        tests:
+          - not_null
+
+  - name: jump_sections
+    description: >
+      One record for each time I jump without tripping or taking a break.
+      Jump sections are identified as periods of time with a cadence more than
+      1.75 jumps per second.
+
+      Jump sections alternate with break sections
+
+  - name: break_sections
+    description: >
+      One record for each time I take a break from jumping.
+      Break sections alternate with jump sections.
+
+  - name: workouts
+    description: >
+      One record for every time I pick up my jump rope and start jumping!

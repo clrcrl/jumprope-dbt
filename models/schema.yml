@@ -8,6 +8,7 @@ models:
         tests:
           - unique
           - not_null
+          - test_that_does_not_exist
 
   - name: pedometer_intervals
     description: one record per time between two consecutive pedometer measurements

@@ -1,0 +1,29 @@
+data_source:
+  name: workout_sections
+  sql_table: dbt_claire.workout_sections # how to parameterize this for dbt builds? 
+  description: one record per work / rest period
+  owners:
+    - claire@apiary.cc
+  identifiers:
+    - name: section_id
+      type: primary
+    - name: workout_id
+      type: foreign
+  dimensions:
+    - name: is_jumping_section
+      description: is jumping section
+      type: categorical
+    - name: start
+      expr: date_trunc('day', start_at)
+      type: time
+      type_params:
+        is_primary: True
+        time_granularity: day
+  measures:
+    - name: total_steps
+      description: total steps
+      agg: sum
+      create_metric: true
+    - name: total_seconds
+      agg: sum
+      create_metric: true

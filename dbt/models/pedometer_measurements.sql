@@ -17,6 +17,8 @@ filtered as (
 
 pedometer_measurements as (
     select
+        md5(pedometerenddate_txt) as measurement_id,
+        
         md5(filename) as workout_id,
 
         pedometerenddate_txt as pedometer_timestamp,

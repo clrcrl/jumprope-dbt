@@ -1,0 +1,18 @@
+data_source:
+  name: workouts
+  description: One record per workout
+  owners:
+    - claire@apiary.cc
+  identifiers:
+    - name: workout_id
+      type: primary
+  dimensions:
+    - name: start_at
+      type: time
+      expr: date_trunc('day', start_at)
+      type_params:
+        is_primary: True
+        time_granularity: day
+  sql_table: dbt_claire.workouts # how to parameterize this for dbt builds?
+  mutability:
+    type: immutable

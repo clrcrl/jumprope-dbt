@@ -4,6 +4,8 @@ with pedometer_measurements as (
 
 pedometer_intervals as (
     select
+        measurement_id,
+        
         workout_id,
 
         workout_start_at,

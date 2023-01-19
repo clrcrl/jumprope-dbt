@@ -1,12 +1,12 @@
 data_source:
   name: workout_sections
   sql_table: dbt_claire.workout_sections # how to parameterize this for dbt builds? 
-  description: one record per work / rest period
+  description: one record per work per rest period
   owners:
     - claire@apiary.cc
   identifiers:
     - name: section_id
-      type: primary
+      type: primary 
     - name: workout_id
       type: foreign
   dimensions:

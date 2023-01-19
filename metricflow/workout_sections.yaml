@@ -24,6 +24,10 @@ data_source:
       description: total steps
       agg: sum
       create_metric: true
+    - name: average_steps
+      description: total steps
+      agg: average
+      create_metric: true
     - name: total_seconds
       agg: sum
       create_metric: true

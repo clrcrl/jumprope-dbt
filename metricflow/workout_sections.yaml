@@ -25,8 +25,9 @@ data_source:
       agg: sum
       create_metric: true
     - name: average_steps
-      description: total steps
+      description: average steps per workout
       agg: average
+      expr: total_steps
       create_metric: true
     - name: total_seconds
       agg: sum

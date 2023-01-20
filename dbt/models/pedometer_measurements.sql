@@ -21,7 +21,9 @@ pedometer_measurements as (
         
         md5(filename) as workout_id,
 
-        pedometerenddate_txt as pedometer_timestamp,
+        -- HACK HACK HACK
+        -- add a year to make this data more recent
+        dateadd(year, 1, convert_timezone('UTC', pedometerenddate_txt)) as pedometer_timestamp,
 
         first_value(pedometer_timestamp) over (
             partition by workout_id
@@ -35,6 +37,7 @@ pedometer_measurements as (
         ) / 1000.0 as seconds_since_start,
 
         pedometerNumberofSteps_N as pedometer_number_of_steps_on_watch,
+
 
         first_value(pedometer_number_of_steps_on_watch) over (
             partition by workout_id
